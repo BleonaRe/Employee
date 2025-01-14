@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from employeeSystem.models import (
     Employee,
     Attendance,
@@ -13,7 +10,8 @@ from employeeSystem.serializers import (
     PerformanceReportSerializer,
     ScheduleSerializer,
 )
-
+from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 # ViewSets
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
