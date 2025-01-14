@@ -1,36 +1,44 @@
-# Employee-
 # Employee Management System
 
 # create a virtual environment
 
-`virtualenv -p python3 .env` or in some systems `python3 -m venv .env`
+  `python -m venv .venv`
 
-- if you want to dump reqs into file, use command
-  `pip freeze > requirements.txt`
+ # For windows system
+
+  `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
 # to activate env
 
-`.venv/Scripts/Activate`
+ `.venv/Scripts/Activate`
 
 # to deactivate env
 
 `deactivate`
-vate`
+
+# if you want to dump reqs into file, use command
+
+  `pip freeze > requirements.txt`
+
 # install requirements
 
-`pip install -r requirements.txt`
+ `pip install -r requirements.txt`
 
 # upgrade pip
 
-`pip install --upgrade pip`
+ `pip install --upgrade pip`
 
 # to run django local up
 
-`python manage.py runserver`
+ `python manage.py runserver` 
+
 # to create migrations 
 
-`python manage.py makemigrations`
+ `python manage.py makemigrations`
 
 # to apply migrations 
 
-`python manage.py migrate`
+ `python manage.py migrate`
+
+
+
