@@ -10,12 +10,12 @@
 
 # to activate env
 
-`source .env/bin/activate`
+`.venv/Scripts/Activate`
 
 # to deactivate env
 
 `deactivate`
-
+vate`
 # install requirements
 
 `pip install -r requirements.txt`
@@ -27,6 +27,9 @@
 # to run django local up
 
 `python manage.py runserver`
+# to create migrations 
+
+`python manage.py makemigrations`
 
 # to apply migrations 
 
