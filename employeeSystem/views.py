@@ -13,9 +13,6 @@ from employeeSystem.serializers import (
     PerformanceReportSerializer,
     ScheduleSerializer,
 )
-from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
-
 
 # ViewSets
 class EmployeeViewSet(viewsets.ModelViewSet):
