@@ -1,11 +1,8 @@
 from django.db import models
-
-# Create your models here
-from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
 
+# Modeli i personalizuar User
 class User(AbstractUser):
     ROLE_CHOICES = [
         ("admin", "Admin"),
@@ -15,7 +12,7 @@ class User(AbstractUser):
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default="employee")
 
-    # Resolve clashes by setting related_name
+    # Avoid clashes by setting related_name
     groups = models.ManyToManyField(
         Group,
         related_name="employee_system_user_set",
@@ -32,7 +29,7 @@ class User(AbstractUser):
     )
 
 
-# Employee model
+# Modeli Employee
 class Employee(models.Model):
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=100)
@@ -44,7 +41,7 @@ class Employee(models.Model):
         return self.name
 
 
-# Attendance model
+# Modeli Attendance
 class Attendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     date = models.DateField()
@@ -56,7 +53,7 @@ class Attendance(models.Model):
         return f"{self.employee.name} - {self.date}"
 
 
-# Performance Report model
+# Modeli PerformanceReport
 class PerformanceReport(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     tasks_completed = models.IntegerField()
@@ -67,7 +64,7 @@ class PerformanceReport(models.Model):
         return f"{self.employee.name} - {self.evaluation_date}"
 
 
-# Schedule model
+# Modeli Schedule
 class Schedule(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     shift_start = models.TimeField()
@@ -75,3 +72,13 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f"{self.employee.name} - {self.shift_start} to {self.shift_end}"
+
+
+# Modeli UserConnection
+class UserConnection(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="connections_initiated")
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name="connections_received")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user1.username} connected to {self.user2.username}"
