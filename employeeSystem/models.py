@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import AbstractUser, Group, Permission
-
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -28,9 +26,9 @@ class User(AbstractUser):
         verbose_name="user permissions",
     )
 
-
 # Employee model
 class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=255)
     role = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
@@ -40,18 +38,16 @@ class Employee(models.Model):
     def __str__(self):
         return self.name
 
-
 # Attendance model
 class Attendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)  # Vendoset automatikisht
     status = models.CharField(
         max_length=10, choices=[("present", "Present"), ("absent", "Absent")]
     )
 
     def __str__(self):
         return f"{self.employee.name} - {self.date}"
-
 
 # Performance Report model
 class PerformanceReport(models.Model):
@@ -62,7 +58,6 @@ class PerformanceReport(models.Model):
 
     def __str__(self):
         return f"{self.employee.name} - {self.evaluation_date}"
-
 
 # Schedule model
 class Schedule(models.Model):
