@@ -141,3 +141,5 @@ TEMPLATES = [
     },
 ]
 
+# settings.py
+LOGOUT_REDIRECT_URL = '/'  # Përdoruesi do të drejtohet në home pas logout-it
