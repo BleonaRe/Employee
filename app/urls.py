@@ -21,9 +21,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from employeeSystem import views  
-
-
-
+from employeeSystem.views import EmployeeViewSet
+from django.contrib.auth import views as auth_views  # Importimi i views për logout
 
 # Swagger schema view
 schema_view = get_schema_view(
@@ -40,12 +39,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    
-    path('', views.home, name='home'),
-    path('login/', views.login_view, name='login'),
+    path('', views.login_view, name='login'),  # Tash login është rruga kryesore!
+    path('home/', views.home, name='home'),  # Pas login-it, do shkojmë te home
     path('register/', views.register_view, name='register'),
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),  
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+
     # Swagger UI
     path(
         "swagger/",
@@ -55,5 +55,3 @@ urlpatterns = [
     # Redoc UI
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
-
-
