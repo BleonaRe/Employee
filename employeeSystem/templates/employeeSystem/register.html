@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Styling similar to login */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #6c5ce7, #5e4ec2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .register-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .register-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .textbox {
+            margin-bottom: 20px;
+        }
+
+        .textbox input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #6c5ce7;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #5e4ec2;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #6c5ce7;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="register-box">
+            <h2>Register</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="textbox">
+                    <input type="text" placeholder="Username" name="username" required>
+                </div>
+                <div class="textbox">
+                    <input type="email" placeholder="Email" name="email" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <div class="textbox">
+                    <input type="password" placeholder="Confirm Password" name="password_confirm" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            {% if messages %}
+                <div class="error-message">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="link-container">
+                <a href="{% url 'login' %}">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
