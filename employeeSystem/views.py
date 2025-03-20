@@ -1,39 +1,32 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
 from rest_framework import viewsets
 from .forms import RegisterForm
-from .models import Employee, Attendance, PerformanceReport, Schedule
+from .models import Employee, Attendance, PerformanceReport, Schedule, Activity, Notification
 from .serializers import (
     EmployeeSerializer, AttendanceSerializer, PerformanceReportSerializer, ScheduleSerializer
 )
-from django.contrib.auth.decorators import login_required
 
-
-@login_required  # Kjo e bën të detyrueshëm login-in për të hyrë në home
+# Home view për përdorues të kyçur
+@login_required
 def home(request):
-    return render(request, 'employeeSystem/home.html')
+    # Statistikat dhe informacionet për punonjësit dhe aktivitetet
+    total_employees = Employee.objects.count()
+    total_attendance = Attendance.objects.filter(date=timezone.now().date()).count()  # Filtrimi për ditën e sotme
+    recent_activity = Activity.objects.all().order_by('-timestamp')[:5]  # Aktivitetet më të fundit
 
+    context = {
+        'total_employees': total_employees,
+        'total_attendance': total_attendance,
+        'recent_activity': recent_activity,
+    }
 
-# ✅ Home view (Ridrejton në login nëse përdoruesi nuk është i kyçur)
-def home(request):
-    if not request.user.is_authenticated:  # Kontrollo nëse përdoruesi nuk është i kyçur
-        return redirect('login')  # Ridrejto në faqen e login-it
+    return render(request, 'employeeSystem/home.html', context)
 
-    employees = Employee.objects.all()
-    attendances = Attendance.objects.all()
-    performance_reports = PerformanceReport.objects.all()
-    schedules = Schedule.objects.all()
-
-    return render(request, 'employeeSystem/home.html', {
-        'employees': employees,
-        'attendances': attendances,
-        'performance_reports': performance_reports,
-        'schedules': schedules
-    })
-
-# ✅ Login View
+# Login View
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -45,10 +38,9 @@ def login_view(request):
             return redirect('home')  # Pas login-it, ridrejto në home
         else:
             messages.error(request, "Invalid username or password.")
-
     return render(request, 'employeeSystem/login.html')
 
-# ✅ Register View
+# Register View
 def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -69,7 +61,12 @@ def register_view(request):
 
     return render(request, 'employeeSystem/register.html', {'form': form})
 
-# ✅ Django REST Framework ViewSets për API
+# Logout View
+def logout_view(request):
+    logout(request)  # Ky do të kryejë logout
+    return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it
+
+# Django REST Framework ViewSets për API
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
@@ -85,19 +82,3 @@ class PerformanceReportViewSet(viewsets.ModelViewSet):
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-
-def logout_view(request):
-    logout(request)  # Ky do të kryejë logout
-    return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it
-
-from django.shortcuts import render
-def dashboard(request):
-    total_employees = Employee.objects.count()
-    total_attendance = Attendance.objects.filter(date_today=True).count()
-    
-    return render(request, 'dashboard.html', {
-        'total_employees': total_employees,
-        'total_attendance': total_attendance,
-    })

@@ -67,3 +67,21 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f"{self.employee.name} - {self.shift_start} to {self.shift_end}"
+
+# Activity model
+class Activity(models.Model):
+    description = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.description
+
+# Notification model
+class Notification(models.Model):
+    title = models.CharField(max_length=255)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
