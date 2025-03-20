@@ -6,10 +6,10 @@
     <title>Register</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Styling similar to login */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #6c5ce7, #5e4ec2);
+            background: url('your-image.jpg') no-repeat center center fixed; /* Shtoni imazhin këtu */
+            background-size: cover; /* Imzahi do të mbushë tërë ekranin */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,10 +23,11 @@
             align-items: center;
             width: 100%;
             height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Efekti i errësirës mbi imazh */
         }
 
         .register-box {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9); /* Sfondo e bardhë me transparencë */
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -51,24 +52,31 @@
             padding: 12px;
             font-size: 16px;
             border: 2px solid #ccc;
-            border-radius: 5px;
+            border-radius: 8px;
             box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .textbox input:focus {
+            border-color: #2C3E50; /* Ngjyra që kemi përdorur për navbar dhe focus */
+            box-shadow: 0 0 8px rgba(44, 62, 80, 0.5);
         }
 
         .btn {
             width: 100%;
             padding: 14px;
-            background-color: #6c5ce7;
+            background-color: #2C3E50;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
         .btn:hover {
-            background-color: #5e4ec2;
+            background-color: #4CA1AF;
         }
 
         .error-message {
@@ -80,11 +88,17 @@
         .link-container {
             text-align: center;
             margin-top: 20px;
+            font-size: 14px;
         }
 
         .link-container a {
-            color: #6c5ce7;
+            color: #2C3E50;
             text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
         }
 
     </style>
