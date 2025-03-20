@@ -20,15 +20,6 @@
             font-size: 24px;
             font-weight: bold;
         }
-        .navbar .btn-custom {
-            background-color: #F39C12;
-            color: black;
-            border-radius: 20px;
-            padding: 8px 15px;
-        }
-        .navbar .btn-custom:hover {
-            background-color: #F1C40F;
-        }
         .sidebar {
             width: 280px;
             height: 100vh;
@@ -52,10 +43,6 @@
         }
         .sidebar a:hover {
             background: #1ABC9C;
-        }
-        .sidebar a.active {
-            background: #16A085;
-            font-weight: bold;
         }
         .content {
             margin-left: 300px;
@@ -85,37 +72,32 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-                    <!-- Search Bar në mes -->
-                    <li class="nav-item">
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
-                    </li>
-    
-                    <!-- Pjesa e përdoruesit (si në fillim) me dizajn të saktë -->
-                    <li class="nav-item dropdown">
-                        <div class="ms-auto dropdown">
-                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/admin">Admin</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+            <!-- Search Bar -->
+            <li class="nav-item">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </li>
+            <li class="nav-item dropdown">
+                <div class="ms-auto dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        {{ user.username }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="/admin">Admin</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
         </div>
     </nav>
-    
-    
 
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="mb-4">📁 Dashboard</h4>
-        <a href="#" class="active">🏠 Home</a>
+        <a href="{% url 'home' %}" class="active">🏠 Home</a>
         <a href="#">👨‍💼 Employees</a>
         <a href="#">⏳ Attendance</a>
         <a href="#">💰 Payroll</a>
@@ -127,26 +109,27 @@
     <div class="content">
         <div class="container">
             <h2 class="mb-4">Employee Management Dashboard</h2>
-            
-            <div class="col-md-4">
-                <div class="card card-custom p-3">
-                    <h5>Employees</h5>
-                    <p>Total: {{ total_employees }}</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card card-custom p-3">
+                        <h5>Employees</h5>
+                        <p>Total: {{ total_employees }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom p-3">
+                        <h5>Attendance</h5>
+                        <p>Checked-in Today: {{ total_attendance }}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom p-3">
+                        <h5>Projects</h5>
+                        <p>Ongoing: {{ ongoing_projects }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card card-custom p-3">
-                    <h5>Attendance</h5>
-                    <p>Checked-in Today: {{ total_attendance }}</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card card-custom p-3">
-                    <h5>Projects</h5>
-                    <p>Ongoing: {{ ongoing_projects }}</p>
-                </div>
-            </div>
-            
 
             <!-- Recent Employee Activity -->
             <div class="row mb-4">
@@ -154,9 +137,9 @@
                     <div class="card card-custom p-3">
                         <h5>Recent Employee Activity</h5>
                         <ul>
-                            <li>John Doe checked-in at 9:00 AM</li>
-                            <li>Jane Smith completed task "Design Dashboard"</li>
-                            <li>Tom Brown logged out at 5:30 PM</li>
+                            {% for activity in recent_activity %}
+                                <li>{{ activity }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -166,13 +149,13 @@
                     <div class="card card-custom p-3">
                         <h5>Notifications</h5>
                         <ul>
-                            <li>Meeting at 3 PM</li>
-                            <li>Payroll to be processed</li>
-                            <li>New project assigned</li>
+                            {% for notification in notifications %}
+                                <li>{{ notification }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
-                
+
                 <!-- Employee List -->
                 <div class="col-md-4">
                     <div class="card card-custom p-3">
@@ -186,21 +169,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>Developer</td>
-                                    <td>Active</td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Smith</td>
-                                    <td>Designer</td>
-                                    <td>Active</td>
-                                </tr>
-                                <tr>
-                                    <td>Tom Brown</td>
-                                    <td>Manager</td>
-                                    <td>On Leave</td>
-                                </tr>
+                                {% for employee in employees %}
+                                    <tr>
+                                        <td>{{ employee.name }}</td>
+                                        <td>{{ employee.position }}</td>
+                                        <td>{{ employee.status }}</td>
+                                    </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -223,6 +198,12 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Grafiku -->
+            <div class="container">
+                <h4 class="mb-4">Employee Overview</h4>
+                <canvas id="employeeChart"></canvas>
+            </div>
         </div>
     </div>
 
@@ -234,7 +215,7 @@
                 labels: ['Employees', 'Attendance', 'Projects'],
                 datasets: [{
                     label: '# of Items',
-                    data: [50, 45, 12],
+                    data: [{{ total_employees }}, {{ total_attendance }}, {{ ongoing_projects }}],
                     backgroundColor: ['#1ABC9C', '#F39C12', '#3498DB'],
                     borderColor: ['#1ABC9C', '#F39C12', '#3498DB'],
                     borderWidth: 1
