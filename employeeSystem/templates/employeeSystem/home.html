@@ -95,8 +95,9 @@
     
                     <!-- Pjesa e përdoruesit (si në fillim) me dizajn të saktë -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            User
+                        <div class="ms-auto dropdown">
+                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                {{ user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="/admin">Admin</a></li>
@@ -127,26 +128,25 @@
         <div class="container">
             <h2 class="mb-4">Employee Management Dashboard</h2>
             
-            <!-- Chart for statistics -->
-            <div class="row mb-4">
-                <div class="col-md-8">
-                    <canvas id="employeeChart" width="400" height="200"></canvas>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom p-3">
-                        <h5>Employees</h5>
-                        <p>Total: 50</p>
-                    </div>
-                    <div class="card card-custom p-3">
-                        <h5>Attendance</h5>
-                        <p>Checked-in Today: 45</p>
-                    </div>
-                    <div class="card card-custom p-3">
-                        <h5>Projects</h5>
-                        <p>Ongoing: 12</p>
-                    </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-3">
+                    <h5>Employees</h5>
+                    <p>Total: {{ total_employees }}</p>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-3">
+                    <h5>Attendance</h5>
+                    <p>Checked-in Today: {{ total_attendance }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom p-3">
+                    <h5>Projects</h5>
+                    <p>Ongoing: {{ ongoing_projects }}</p>
+                </div>
+            </div>
+            
 
             <!-- Recent Employee Activity -->
             <div class="row mb-4">

@@ -91,3 +91,13 @@ from django.shortcuts import redirect
 def logout_view(request):
     logout(request)  # Ky do të kryejë logout
     return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it
+
+from django.shortcuts import render
+def dashboard(request):
+    total_employees = Employee.objects.count()
+    total_attendance = Attendance.objects.filter(date_today=True).count()
+    
+    return render(request, 'dashboard.html', {
+        'total_employees': total_employees,
+        'total_attendance': total_attendance,
+    })
