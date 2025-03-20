@@ -85,3 +85,9 @@ class PerformanceReportViewSet(viewsets.ModelViewSet):
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def logout_view(request):
+    logout(request)  # Ky do të kryejë logout
+    return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it

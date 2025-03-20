@@ -39,7 +39,8 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', views.login_view, name='login'),  # Tash login është rruga kryesore!
+    path('', views.login_view, name='login'), 
+     path('logout/', views.logout_view, name='logout'), # Tash login është rruga kryesore!
     path('home/', views.home, name='home'),  # Pas login-it, do shkojmë te home
     path('register/', views.register_view, name='register'),
     path("admin/", admin.site.urls),
