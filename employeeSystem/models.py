@@ -67,6 +67,62 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f"{self.employee.name} - {self.shift_start} to {self.shift_end}"
+from django.db import models
+
+class Goals(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    goal_name = models.CharField(max_length=200)
+    description = models.TextField()
+    target_date = models.DateField()
+    achieved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.goal_name
+
+
+class Projects(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    project_name = models.CharField(max_length=200)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    status = models.CharField(max_length=50, choices=[('Not Started', 'Not Started'), ('In Progress', 'In Progress'), ('Completed', 'Completed')])
+
+    def __str__(self):
+        return self.project_name
+
+
+class Surveys(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    survey_title = models.CharField(max_length=200)
+    survey_date = models.DateField()
+    feedback = models.TextField()
+
+    def __str__(self):
+        return self.survey_title
+
+
+class Assets(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    asset_name = models.CharField(max_length=200)
+    asset_type = models.CharField(max_length=100)
+    issue_date = models.DateField()
+    return_date = models.DateField(null=True, blank=True)
+    condition = models.CharField(max_length=100, choices=[('Good', 'Good'), ('Fair', 'Fair'), ('Poor', 'Poor')])
+
+    def __str__(self):
+        return self.asset_name
+
+
+class Holidays(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    holiday_name = models.CharField(max_length=200)
+    holiday_date = models.DateField()
+    is_approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.holiday_name
+
 
 # Activity model
 class Activity(models.Model):
