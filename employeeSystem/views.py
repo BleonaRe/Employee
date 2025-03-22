@@ -5,9 +5,10 @@ from django.contrib import messages
 from django.utils import timezone
 from rest_framework import viewsets
 from .forms import RegisterForm
-from .models import Employee, Attendance, PerformanceReport, Schedule, Activity, Notification
+from .models import Employee, Attendance, PerformanceReport, Schedule, Activity, Notification, Goals, Projects, Holidays, Assets, Surveys
 from .serializers import (
-    EmployeeSerializer, AttendanceSerializer, PerformanceReportSerializer, ScheduleSerializer
+    EmployeeSerializer, AttendanceSerializer, PerformanceReportSerializer, ScheduleSerializer,
+      GoalsSerializer, ProjectsSerializer, HolidaysSerializer, AssetsSerializer, SurveysSerializer
 )
 
 # Home view për përdorues të kyçur
@@ -24,7 +25,9 @@ def home(request):
         'recent_activity': recent_activity,
     }
 
-    return render(request, 'employeeSystem/home.html', context)
+def home(request):
+    return render(request, 'Templates/home.html')  # Shiko që path është i saktë
+
 
 # Login View
 def login_view(request):
@@ -38,7 +41,7 @@ def login_view(request):
             return redirect('home')  # Pas login-it, ridrejto në home
         else:
             messages.error(request, "Invalid username or password.")
-    return render(request, 'employeeSystem/login.html')
+    return render(request, 'EmployeeSystem/login.html')
 
 # Register View
 def register_view(request):
@@ -59,7 +62,7 @@ def register_view(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'employeeSystem/register.html', {'form': form})
+    return render(request, 'EmployeeSystem/register.html', {'form': form})
 
 # Logout View
 def logout_view(request):
@@ -82,3 +85,42 @@ class PerformanceReportViewSet(viewsets.ModelViewSet):
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+
+class GoalViewSet(viewsets.ModelViewSet):
+    queryset = Goals.objects.all()
+    serializer_class = GoalsSerializer
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Projects.objects.all()
+    serializer_class = ProjectsSerializer
+
+
+class HolidayViewSet(viewsets.ModelViewSet):
+    queryset = Holidays.objects.all()
+    serializer_class = HolidaysSerializer
+
+    
+class SurveyViewSet(viewsets.ModelViewSet):
+    queryset = Surveys.objects.all()
+    serializer_class = SurveysSerializer
+
+from django.shortcuts import render
+from .models import Employee, Attendance
+from django.contrib.auth.decorators import login_required
+
+# Home view për përdorues të kyçur
+@login_required
+def home(request):
+    # Statistikat dhe informacionet për punonjësit dhe aktivitetet
+    total_employees = Employee.objects.count()
+    total_attendance = Attendance.objects.filter(date=timezone.now().date()).count()  # Filtrimi për ditën e sotme
+    ongoing_projects = 5  # Ky është një shembull, mund ta lidhësh me projektet e tua
+
+    context = {
+        'total_employees': total_employees,
+        'total_attendance': total_attendance,
+        'ongoing_projects': ongoing_projects,
+    }
+
+    return render(request, 'home.html', context)
+

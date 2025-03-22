@@ -3,6 +3,11 @@ from employeeSystem.models import (
     Attendance,
     PerformanceReport,
     Schedule,
+    Goals,
+    Projects,
+    Surveys,
+    Holidays,
+    Assets
 )
 from rest_framework import serializers
 # employeeSystem/serializers.py
@@ -47,3 +52,33 @@ class ScheduleSerializer(serializers.ModelSerializer):
         model = Schedule
         fields = "__all__"
         read_only_fields = ["id"]
+
+class GoalsSerializer(serializers.ModelSerializer):
+  employee = serializers.StringRelatedField()
+class Meta:
+        model = Goals
+        fields = ['id', 'employee', 'goal_name', 'description', 'target_date', 'achieved']
+
+class ProjectsSerializer(serializers.ModelSerializer):
+    employee = serializers.StringRelatedField()
+class Meta:
+        model = Projects
+        fields = ['id', 'employee', 'project_name', 'description', 'start_date', 'end_date', 'status']
+
+class SurveysSerializer(serializers.ModelSerializer):
+  employee = serializers.StringRelatedField()
+class Meta:
+        model = Surveys
+        fields = ['id', 'employee', 'survey_title', 'survey_date', 'feedback']
+
+class AssetsSerializer(serializers.ModelSerializer):
+     employee = serializers.StringRelatedField()
+class Meta:
+        model = Assets
+        fields = ['id', 'employee', 'asset_name', 'asset_type', 'issue_date', 'return_date', 'condition']
+
+class HolidaysSerializer(serializers.ModelSerializer):
+    employee = serializers.StringRelatedField()
+class Meta:
+        model = Holidays
+        fields = ['id', 'employee', 'holiday_name', 'holiday_date', 'is_approved']
