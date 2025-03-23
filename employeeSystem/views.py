@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .forms import RegisterForm
 from .models import Employee, Attendance, PerformanceReport, Schedule, Activity, Notification, Goals, Projects, Holidays, Assets, Surveys
 from .serializers import (
     EmployeeSerializer, AttendanceSerializer, PerformanceReportSerializer, ScheduleSerializer,
-      GoalsSerializer, ProjectsSerializer, HolidaysSerializer, AssetsSerializer, SurveysSerializer
+    GoalsSerializer, ProjectsSerializer, HolidaysSerializer, AssetsSerializer, SurveysSerializer
 )
 
 # Home view për përdorues të kyçur
@@ -17,16 +18,15 @@ def home(request):
     # Statistikat dhe informacionet për punonjësit dhe aktivitetet
     total_employees = Employee.objects.count()
     total_attendance = Attendance.objects.filter(date=timezone.now().date()).count()  # Filtrimi për ditën e sotme
-    recent_activity = Activity.objects.all().order_by('-timestamp')[:5]  # Aktivitetet më të fundit
+    ongoing_projects = Projects.objects.filter(status="In Progress").count()  # Projekti në vazhdim
 
     context = {
         'total_employees': total_employees,
         'total_attendance': total_attendance,
-        'recent_activity': recent_activity,
+        'ongoing_projects': ongoing_projects,
     }
 
-def home(request):
-    return render(request, 'Templates/home.html')  # Shiko që path është i saktë
+    return render(request, 'home.html', context)
 
 
 # Login View
@@ -42,6 +42,7 @@ def login_view(request):
         else:
             messages.error(request, "Invalid username or password.")
     return render(request, 'EmployeeSystem/login.html')
+
 
 # Register View
 def register_view(request):
@@ -64,63 +65,70 @@ def register_view(request):
 
     return render(request, 'EmployeeSystem/register.html', {'form': form})
 
+
 # Logout View
 def logout_view(request):
     logout(request)  # Ky do të kryejë logout
     return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it
 
+
 # Django REST Framework ViewSets për API
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    permission_classes = [IsAuthenticated]
 
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
+    permission_classes = [IsAuthenticated]
 
 class PerformanceReportViewSet(viewsets.ModelViewSet):
     queryset = PerformanceReport.objects.all()
     serializer_class = PerformanceReportSerializer
+    permission_classes = [IsAuthenticated]
 
 class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
+    permission_classes = [IsAuthenticated]
 
 class GoalViewSet(viewsets.ModelViewSet):
     queryset = Goals.objects.all()
     serializer_class = GoalsSerializer
+    permission_classes = [IsAuthenticated]
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
-
+    permission_classes = [IsAuthenticated]
 
 class HolidayViewSet(viewsets.ModelViewSet):
     queryset = Holidays.objects.all()
     serializer_class = HolidaysSerializer
+    permission_classes = [IsAuthenticated]
 
-    
 class SurveyViewSet(viewsets.ModelViewSet):
     queryset = Surveys.objects.all()
     serializer_class = SurveysSerializer
+    permission_classes = [IsAuthenticated]
 
-from django.shortcuts import render
-from .models import Employee, Attendance
-from django.contrib.auth.decorators import login_required
 
-# Home view për përdorues të kyçur
-@login_required
-def home(request):
-    # Statistikat dhe informacionet për punonjësit dhe aktivitetet
-    total_employees = Employee.objects.count()
-    total_attendance = Attendance.objects.filter(date=timezone.now().date()).count()  # Filtrimi për ditën e sotme
-    ongoing_projects = 5  # Ky është një shembull, mund ta lidhësh me projektet e tua
+# Activity view për menaxhimin e aktiviteteve
+#lass ActivityViewSet(viewsets.ModelViewSet):
+    #queryset = Activity.objects.all()
+    #serializer_class = ActivitySerializer
+    #permission_classes = [IsAuthenticated]
 
-    context = {
-        'total_employees': total_employees,
-        'total_attendance': total_attendance,
-        'ongoing_projects': ongoing_projects,
-    }
 
-    return render(request, 'home.html', context)
+# Notification view për menaxhimin e njoftimeve
+#lass NotificationViewSet(viewsets.ModelViewSet):
+   #queryset = Notification.objects.all()
+   # serializer_class = NotificationSerializer
+    #permission_classes = [IsAuthenticated]
+# Logout View
 
+def logout_view(request):
+    logout(request)
+    print("User logged out successfully")  # Kjo do të shfaqet në log për debugging
+    return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it

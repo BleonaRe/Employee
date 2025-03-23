@@ -20,7 +20,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 # Attendance Serializer
 class AttendanceSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Attendance
@@ -29,7 +29,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
 
 # Performance Report Serializer
 class PerformanceReportSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = PerformanceReport
@@ -38,7 +38,7 @@ class PerformanceReportSerializer(serializers.ModelSerializer):
 
 # Schedule Serializer
 class ScheduleSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Schedule
@@ -47,40 +47,89 @@ class ScheduleSerializer(serializers.ModelSerializer):
 
 # Goals Serializer
 class GoalsSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Goals
-        fields = ["id", "employee", "goal_name", "description", "target_date", "achieved"]
+        fields = "__all__"
 
 # Projects Serializer
 class ProjectsSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Projects
-        fields = ["id", "employee", "project_name", "description", "start_date", "end_date", "status"]
+        fields = "__all__"
 
 # Surveys Serializer
 class SurveysSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Surveys
-        fields = ["id", "employee", "survey_title", "survey_date", "feedback"]
+        fields = "__all__"
 
 # Assets Serializer
 class AssetsSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Assets
-        fields = ["id", "employee", "asset_name", "asset_type", "issue_date", "return_date", "condition"]
+        fields = "__all__"
 
 # Holidays Serializer
 class HolidaysSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()
+    employee = serializers.PrimaryKeyRelatedField(queryset=Employee.objects.all())
 
     class Meta:
         model = Holidays
-        fields = ["id", "employee", "holiday_name", "holiday_date", "is_approved"]
+        fields = "__all__"
+
+# ViewSets
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    permission_classes = [IsAuthenticated]
+
+class AttendanceViewSet(viewsets.ModelViewSet):
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
+    permission_classes = [IsAuthenticated]
+
+class PerformanceReportViewSet(viewsets.ModelViewSet):
+    queryset = PerformanceReport.objects.all()
+    serializer_class = PerformanceReportSerializer
+    permission_classes = [IsAuthenticated]
+
+class ScheduleViewSet(viewsets.ModelViewSet):
+    queryset = Schedule.objects.all()
+    serializer_class = ScheduleSerializer
+    permission_classes = [IsAuthenticated]
+
+class GoalViewSet(viewsets.ModelViewSet):
+    queryset = Goals.objects.all()
+    serializer_class = GoalsSerializer
+    permission_classes = [IsAuthenticated]
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Projects.objects.all()
+    serializer_class = ProjectsSerializer
+    permission_classes = [IsAuthenticated]
+
+class SurveyViewSet(viewsets.ModelViewSet):
+    queryset = Surveys.objects.all()
+    serializer_class = SurveysSerializer
+    permission_classes = [IsAuthenticated]
+
+class HolidayViewSet(viewsets.ModelViewSet):
+    queryset = Holidays.objects.all()
+    serializer_class = HolidaysSerializer
+    permission_classes = [IsAuthenticated]
+
+class AssetViewSet(viewsets.ModelViewSet):
+    queryset = Assets.objects.all()
+    serializer_class = AssetsSerializer
+    permission_classes = [IsAuthenticated]
