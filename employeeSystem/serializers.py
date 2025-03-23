@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from employeeSystem.models import (
     Employee,
     Attendance,
@@ -9,15 +10,6 @@ from employeeSystem.models import (
     Holidays,
     Assets
 )
-from rest_framework import serializers
-# employeeSystem/serializers.py
-from rest_framework import serializers
-from .models import Employee
-
-class EmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = '__all__'
 
 # Employee Serializer
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -28,12 +20,12 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 # Attendance Serializer
 class AttendanceSerializer(serializers.ModelSerializer):
-    employee = serializers.StringRelatedField()  # Shfaq emrin e punonjësit në vend të ID-së
+    employee = serializers.StringRelatedField()
 
     class Meta:
         model = Attendance
         fields = "__all__"
-        read_only_fields = ["id", "date"]  # `date` vendoset automatikisht
+        read_only_fields = ["id", "date"]
 
 # Performance Report Serializer
 class PerformanceReportSerializer(serializers.ModelSerializer):
@@ -42,7 +34,7 @@ class PerformanceReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = PerformanceReport
         fields = "__all__"
-        read_only_fields = ["id", "evaluation_date"]  # `evaluation_date` vendoset automatikisht
+        read_only_fields = ["id", "evaluation_date"]
 
 # Schedule Serializer
 class ScheduleSerializer(serializers.ModelSerializer):
@@ -53,32 +45,42 @@ class ScheduleSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["id"]
 
+# Goals Serializer
 class GoalsSerializer(serializers.ModelSerializer):
-  employee = serializers.StringRelatedField()
-class Meta:
-        model = Goals
-        fields = ['id', 'employee', 'goal_name', 'description', 'target_date', 'achieved']
+    employee = serializers.StringRelatedField()
 
+    class Meta:
+        model = Goals
+        fields = ["id", "employee", "goal_name", "description", "target_date", "achieved"]
+
+# Projects Serializer
 class ProjectsSerializer(serializers.ModelSerializer):
     employee = serializers.StringRelatedField()
-class Meta:
+
+    class Meta:
         model = Projects
-        fields = ['id', 'employee', 'project_name', 'description', 'start_date', 'end_date', 'status']
+        fields = ["id", "employee", "project_name", "description", "start_date", "end_date", "status"]
 
+# Surveys Serializer
 class SurveysSerializer(serializers.ModelSerializer):
-  employee = serializers.StringRelatedField()
-class Meta:
+    employee = serializers.StringRelatedField()
+
+    class Meta:
         model = Surveys
-        fields = ['id', 'employee', 'survey_title', 'survey_date', 'feedback']
+        fields = ["id", "employee", "survey_title", "survey_date", "feedback"]
 
+# Assets Serializer
 class AssetsSerializer(serializers.ModelSerializer):
-     employee = serializers.StringRelatedField()
-class Meta:
-        model = Assets
-        fields = ['id', 'employee', 'asset_name', 'asset_type', 'issue_date', 'return_date', 'condition']
+    employee = serializers.StringRelatedField()
 
+    class Meta:
+        model = Assets
+        fields = ["id", "employee", "asset_name", "asset_type", "issue_date", "return_date", "condition"]
+
+# Holidays Serializer
 class HolidaysSerializer(serializers.ModelSerializer):
     employee = serializers.StringRelatedField()
-class Meta:
+
+    class Meta:
         model = Holidays
-        fields = ['id', 'employee', 'holiday_name', 'holiday_date', 'is_approved']
+        fields = ["id", "employee", "holiday_name", "holiday_date", "is_approved"]
