@@ -22,7 +22,6 @@ router.register(r"holidays",HolidayViewSet)
 router.register(r"surveys",SurveyViewSet)
 router.register(r"projects",ProjectViewSet)
 
-
 urlpatterns = [
     path('api/', include(router.urls)),  # Sigurohuni që ky rresht është aktivizuar
 ]
