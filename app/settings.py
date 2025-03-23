@@ -88,4 +88,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGOUT_REDIRECT_URL = '/'  # Përdoruesi do të drejtohet në home pas logout-it
+LOGOUT_REDIRECT_URL = '/login/'  # Drejtoje menjëherë tek faqja e login-it
+

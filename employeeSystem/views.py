@@ -65,11 +65,10 @@ def register_view(request):
 
     return render(request, 'EmployeeSystem/register.html', {'form': form})
 
-
-# Logout View
 def logout_view(request):
-    logout(request)  # Ky do të kryejë logout
-    return redirect('login')  # Pas logout, përdoruesi drejtohet në faqen e login-it
+    logout(request)
+    print("User logged out successfully")  # Ky print do të shfaqet në konsolën tuaj për debugging
+    return redirect('login')
 
 
 # Django REST Framework ViewSets për API
