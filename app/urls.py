@@ -4,9 +4,7 @@ from employeeSystem.urls import router
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from employeeSystem import views  
-from employeeSystem.views import EmployeeViewSet
-from django.contrib.auth import views as auth_views  # Importimi i views për logout
+from employeeSystem import views
 
 # Swagger schema view
 schema_view = get_schema_view(
@@ -23,13 +21,12 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', views.login_view, name='login'), 
-    path('home/', views.home, name='home'),  
-    path('register/', views.register_view, name='register'),
+    path("", views.login_view, name="login"),
+    path("home/", views.home, name="home"),
+    path("register/", views.register_view, name="register"),
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),  
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),  # Kjo është mënyra më e mirë për logout
-
+    path("api/", include(router.urls)),
+    path("logout/", views.logout_view, name="logout"),
     # Swagger UI
     path(
         "swagger/",

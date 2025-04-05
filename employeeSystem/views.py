@@ -61,10 +61,10 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "Login successful!")
-            return redirect("home")  # Pas login-it, ridrejto në home
+            return redirect("home")
         else:
             messages.error(request, "Invalid username or password.")
+
     return render(request, "EmployeeSystem/login.html")
 
 
@@ -92,9 +92,6 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    print(
-        "User logged out successfully"
-    )  # Ky print do të shfaqet në konsolën tuaj për debugging
     return redirect("login")
 
 
@@ -160,9 +157,3 @@ class SurveyViewSet(viewsets.ModelViewSet):
 # serializer_class = NotificationSerializer
 # permission_classes = [IsAuthenticated]
 # Logout View
-
-
-def logout_view(request):
-    logout(request)
-    print("User logged out successfully")  # Kjo do të shfaqet në log për debugging
-    return redirect("login")  # Pas logout, përdoruesi drejtohet në faqen e login-it
