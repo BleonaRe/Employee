@@ -25,8 +25,8 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path("register/", views.register_view, name="register"),
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),
     path("logout/", views.logout_view, name="logout"),
+    path("", include("employeeSystem.urls")),
     # Swagger UI
     path(
         "swagger/",

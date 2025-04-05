@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block title %}Employee List{% endblock %}
+<br />
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1>Employee List</h1>
+  <a href="{% url 'employee_create' %}" class="btn btn-primary">Add Employee</a>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Department</th>
+      <th>Salary</th>
+      <th>Contact</th>
+      <th>User</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in employees %}
+    <tr>
+      <td>{{ employee.id }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.role }}</td>
+      <td>{{ employee.department }}</td>
+      <td>{{ employee.salary }}</td>
+      <td>{{ employee.contact }}</td>
+      <td>{{ employee.user|default:"N/A" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

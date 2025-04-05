@@ -98,20 +98,20 @@
     <div class="sidebar">
       <h4 class="mb-4">📊 Dashboard</h4>
       <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
-      <a href="/api/employees/"><i class="fas fa-users"></i> Employees</a>
-      <a href="/api/attendance/"
+      <a href="{% url 'employee_list' %}"
+        ><i class="fas fa-users"></i> Employees</a
+      >
+      <a href="/attendance/"
         ><i class="fas fa-calendar-check"></i> Attendance</a
       >
-      <a href="/api/schedules/"
-        ><i class="fas fa-calendar-alt"></i> Schedules</a
-      >
-      <a href="/api/performance-reports/"
+      <a href="/schedules/"><i class="fas fa-calendar-alt"></i> Schedules</a>
+      <a href="/performance-reports/"
         ><i class="fas fa-chart-line"></i> Performance-reports</a
       >
-      <a href="/api/projects/"><i class="fas fa-tasks"></i> Projects</a>
-      <a href="/api/goals/"><i class="fas fa-bullseye"></i> Goals</a>
-      <a href="/api/holidays/"><i class="fas fa-beer"></i> Holidays</a>
-      <a href="/api/surveys/"><i class="fas fa-poll"></i> Surveys</a>
+      <a href="/projects/"><i class="fas fa-tasks"></i> Projects</a>
+      <a href="/goals/"><i class="fas fa-bullseye"></i> Goals</a>
+      <a href="/holidays/"><i class="fas fa-beer"></i> Holidays</a>
+      <a href="/surveys/"><i class="fas fa-poll"></i> Surveys</a>
     </div>
 
     <!-- Page Content -->

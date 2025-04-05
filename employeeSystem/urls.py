@@ -10,10 +10,12 @@ from .views import (
     ProjectViewSet,
     SurveyViewSet,
     HolidayViewSet,
+    employee_list,
+    employee_create,
 )
 
 router = routers.DefaultRouter()
-router.register(r"employees", EmployeeViewSet)
+# router.register(r"employees", EmployeeViewSet)
 router.register(r"attendance", AttendanceViewSet)
 router.register(r"performance-reports", PerformanceReportViewSet)
 router.register(r"schedules", ScheduleViewSet)
@@ -23,5 +25,7 @@ router.register(r"surveys", SurveyViewSet)
 router.register(r"projects", ProjectViewSet)
 
 urlpatterns = [
-    path("api/", include(router.urls)),
+    path("", include(router.urls)),
+    path("employees/", employee_list, name="employee_list"),
+    path("employees/new/", employee_create, name="employee_create"),
 ]
