@@ -30,7 +30,7 @@ from .serializers import (
     AssetsSerializer,
     SurveysSerializer,
 )
-from .forms import EmployeeForm
+from .forms import EmployeeForm, AttendanceForm
 
 
 # Home view për përdorues të kyçur
@@ -176,3 +176,21 @@ def employee_create(request):
     else:
         form = EmployeeForm()
     return render(request, "EmployeeSystem/employee_form.html", {"form": form})
+
+
+def attendance_list(request):
+    attendances = Attendance.objects.all()
+    return render(
+        request, "EmployeeSystem/attendance_list.html", {"attendances": attendances}
+    )
+
+
+def attendance_add(request):
+    if request.method == "POST":
+        form = AttendanceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("attendance_list")
+    else:
+        form = AttendanceForm()
+    return render(request, "EmployeeSystem/attendance_form.html", {"form": form})

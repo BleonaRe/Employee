@@ -1,0 +1,48 @@
+{% extends "base.html" %} {% block title %}Attendance List{% endblock %}
+<br />
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">Attendance List</h1>
+    <a href="{% url 'attendance_add' %}" class="btn btn-primary">
+      + Add Attendance
+    </a>
+  </div>
+
+  <!-- Attendance table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">Employee</th>
+          <th scope="col">Status</th>
+          <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in attendances %}
+        <tr>
+          <td>{{ record.employee }}</td>
+          <td>
+            {% if record.status == "Present" %}
+            <span class="badge bg-success">Present</span>
+            {% elif record.status == "Absent" %}
+            <span class="badge bg-danger">Absent</span>
+            {% else %}
+            <span class="badge bg-secondary">{{ record.status }}</span>
+            {% endif %}
+          </td>
+          <td>{{ record.date|date:"M d, Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center text-muted">
+            No attendance records found.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

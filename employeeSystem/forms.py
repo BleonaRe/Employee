@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from employeeSystem.models import Employee
+from employeeSystem.models import Employee, Attendance
 
 
 class RegisterForm(forms.ModelForm):
@@ -25,3 +25,9 @@ class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         fields = ["name", "role", "department", "salary", "contact", "user"]
+
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = Attendance
+        fields = ["employee", "status"]
