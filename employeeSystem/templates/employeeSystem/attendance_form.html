@@ -1,0 +1,16 @@
+<!-- templates/attendance_form.html -->
+{% extends 'base.html' %} {% block title %}Add Attendance{% endblock %}
+<br />
+{% block content %}
+<h2>Add Attendance</h2>
+<form method="post">
+  {% csrf_token %}
+  <label for="id_employee">Employee:</label>
+  {{ form.employee }}
+
+  <label for="id_status">Status:</label>
+  {{ form.status }}
+
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}
