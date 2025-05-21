@@ -12,6 +12,7 @@
 
  `.venv/Scripts/Activate`
 
+
 # to deactivate env
 
 `deactivate`
